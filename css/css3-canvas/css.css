@@ -1,132 +1,141 @@
-        body {
-            font-family: 'Helvetica';
-            font-size: 12px;
-            background-color: #4CB5C5;
-            background-image: 
-                linear-gradient(#FFF 2px, rgba(0, 0, 0, 0) 2px), 
-                linear-gradient(90deg, #FFF 2px, rgba(0, 0, 0, 0) 2px), 
-                linear-gradient(rgba(255, 255, 255, .3) 1px, rgba(0, 0, 0, 0) 1px), 
-                linear-gradient(90deg, rgba(255, 255, 255, .3) 1px, rgba(0, 0, 0, 0) 1px);
-            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-            background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
-        }
 
-        body:hover { background-color: #1A98CA; }
-        ::selection { color: black; }
-        label { cursor: pointer; }
+body {
+    font-family: 'Helvetica';
+    font-size: 12px;
+    background-color: #1A98CA;
+}
 
-        #wrapper, #pg {
-            width: 400px;
-            position: relative;
-            background: #fff;
-        }
+body.no-js {
+    background-color: #4CB5C5;
+    background-image: 
+        linear-gradient(#FFF 2px, rgba(0, 0, 0, 0) 2px), 
+        linear-gradient(90deg, #FFF 2px, rgba(0, 0, 0, 0) 2px), 
+        linear-gradient(rgba(255, 255, 255, .3) 1px, rgba(0, 0, 0, 0) 1px), 
+        linear-gradient(90deg, rgba(255, 255, 255, .3) 1px, rgba(0, 0, 0, 0) 1px);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+}
 
-        #wrapper {
-            height: 434px;
-            margin: 10% auto 0;
-            overflow: hidden;
-        }
+body.no-js:hover { background-color: #1A98CA; }
+::selection { color: black; }
+label { cursor: pointer; }
 
-        #pg {
-            height: 400px;
-            text-align: center;
-        }
+#wrapper, #pg {
+    width: 400px;
+    position: relative;
+    background: #fff;
+}
 
-        #pg > div {
-            width: 320px;
-            position: absolute;
-            opacity: 0;
-            left: 40px;
-            top: 100px;
-        }
+#wrapper {
+    height: 434px;
+    margin: 10% auto 0;
+    overflow: hidden;
+}
 
-        #pg:hover > div { opacity: 1; }
+#pg {
+    height: 400px;
+    text-align: center;
+}
 
-        #options {
-            width: 400px;
-            height: 400px;
-            opacity: 1;
-            left: 400px;
-            position: absolute;
-            background: #2A19EB;
-            z-index: 999;
-        }
+#pg > div {
+    width: 320px;
+    position: absolute;
+    opacity: 0;
+    left: 40px;
+    top: 100px;
+}
 
-        #actions {
-            width: 400px;
-            height: 34px;
-            background: #9C6;
-            margin: 0 auto;
-            cursor: pointer;
-        }
+#pg:hover > div { opacity: 1; }
 
-        #actions > label {
-            width: 50%;
-            float: left;
-            padding: 10px 0;
-            text-align: center;
-            cursor: pointer;
-        }
+#options {
+    width: 400px;
+    height: 400px;
+    opacity: 1;
+    left: 400px;
+    position: absolute;
+    background: #2A19EB;
+    z-index: 999;
+}
 
-        #actions > label:hover { background-color: #FC0; }
+#actions {
+    width: 400px;
+    height: 34px;
+    background: #9C6;
+    margin: 0 auto;
+    cursor: pointer;
+}
 
-        #pg > div, #options, #actions > label {
-            -webkit-transition: all .12s ease-in-out;
-            -moz-transition: all .12s ease-in-out;
-        }
+#actions > label {
+    width: 50%;
+    float: left;
+    padding: 10px 0;
+    text-align: center;
+    cursor: pointer;
+}
 
-        input[type=checkbox] { display: none; }
+#actions > label:hover { background-color: #FC0; }
 
-        #pg label {
-            /* text-indent: -9999px is BAD !! */
-            text-indent: 100%;
-            overflow: hidden;
-            white-space: nowrap;
-            /* text-indent: -9999px is BAD !! */
+#pg > div, #options, #actions > label {
+    -webkit-transition: all .12s ease-in-out;
+    -moz-transition: all .12s ease-in-out;
+}
 
-            cursor: pointer;
-            display: inline;
-            float: left;
-        }
+input[type=checkbox] { display: none; }
 
-        /* Show hover */
+#pg label {
+    /* text-indent: -9999px is BAD !! */
+    text-indent: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    /* text-indent: -9999px is BAD !! */
 
-        label:hover { background-color: #F44; }
+    cursor: pointer;
+    display: inline;
+    float: left;
+}
 
-        /* Trick */
+/* Show hover */
 
-        input:checked + label { background-color: blue; }
+label:hover { background-color: #F44; }
 
-        #info-check:checked + #options {
-            opacity: 1;
-            left: 0;
-        }
+/* Trick */
 
-        .option-unit {
-            width: 80%;
-            margin: 0px auto;
-            overflow: hidden;
-        }
+input:checked + label { background-color: blue; }
 
-        .option-unit div, .option-unit label {
-            width: 110px;
-            padding: 20px;
-            margin: 5px;
-            float: left;
-        }
+#info-check:checked + #options {
+    opacity: 1;
+    left: 0;
+}
 
-        .option-unit .hero {
-            width: 270px;
-            background: #9C6;
-            margin-top: 40px;
-        }
+.option-unit {
+    width: 80%;
+    margin: 0px auto;
+    overflow: hidden;
+}
 
-        .option-unit label.orange { background: #F7A133; }
-        .option-unit label.blue { background: #60C9FA; }
+.option-unit div, .option-unit label {
+    width: 110px;
+    padding: 20px;
+    margin: 5px;
+    float: left;
+}
 
-        /* Block Sizes */
+.option-unit .hero {
+    width: 270px;
+    background: #9C6;
+    margin-top: 40px;
+}
 
-        .ten-px {
-            width: 10px;
-            height: 10px;
-        }
+.option-unit label.orange { background: #F7A133; }
+.option-unit label.blue { background: #60C9FA; }
+
+/* Block Sizes */
+
+.four-px {
+    width: 4px;
+    height: 4px;
+}
+.ten-px {
+    width: 10px;
+    height: 10px;
+}
