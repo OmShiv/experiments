@@ -1,4 +1,3 @@
-
 body {
     font-family: 'Helvetica';
     font-size: 12px;
@@ -18,7 +17,16 @@ body.no-js {
 
 body.no-js:hover { background-color: #1A98CA; }
 ::selection { color: black; }
-label { cursor: pointer; }
+label { 
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
 
 #wrapper, #pg {
     width: 400px;
@@ -70,7 +78,6 @@ label { cursor: pointer; }
     float: left;
     padding: 10px 0;
     text-align: center;
-    cursor: pointer;
 }
 
 #actions > label:hover { background-color: #FC0; }
@@ -89,7 +96,6 @@ input[type=checkbox] { display: none; }
     white-space: nowrap;
     /* text-indent: -9999px is BAD !! */
 
-    cursor: pointer;
     display: inline;
     float: left;
 }
