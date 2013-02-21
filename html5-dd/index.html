@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Implementing Native Drop of files</title>
+		<link rel="icon" type="image/png" href="favicon.png" />
+		<link rel="stylesheet" href="css/css.css" type="text/css">
+		<script type="text/javascript" src="js/base/jquery-min.js"></script>
+		<script type="text/javascript" src="js/base/underscore-min.js"></script>
+		<script type="text/javascript" src="js/base/backbone-min.js"></script>
+		<script type="text/javascript" src="js/base/backbone-localstorage.js"></script>
+	</head>	
+	<body>
+		<div id="html5-dd-app" class="wrapper">
+			<div id="drop-div" >
+				Drop your images here
+			</div>
+			<div id="filters-div">
+
+			</div>
+			<div id="output" class="gallery">
+			</div>
+		
+		<label class="local-storage-div btn" for="clear-storage">Clear Local Storage on Exit </label>
+
+		</div>
+
+		<!-- Templates -->
+		<script type="text/template" id="image-tpl">
+			<img src="<%- dataURL %>" alt="Image" width="<%- width %>" title="<%- title %>" />
+			<div class="controls">
+				<a class="control delete btn" href="javascript:;">Delete</a>
+				<a class="control like btn"	href="javascript:;" class="<%= liked ? 'selected' : '' %>" >Like</a>
+			</div>
+		</script>
+
+		<script type="text/template" id="stats-template">
+			<ul id="filters">
+				<li>
+					<a class="filter btn" href="#/index">All</a>
+				</li>
+				<li>
+					<a class="filter btn" href="#/liked">Liked</a>
+				</li>
+				<li>
+					<a class="filter btn" href="#/not-liked">Unliked</a>
+				</li>
+			</ul>
+		</script>
+
+		<!-- Scripts -->
+		<script type="text/javascript" src="js/model/models/model.js"></script>
+		<script type="text/javascript" src="js/model/collections/collection.js"></script>
+		<script type="text/javascript" src="js/view/item-view.js"></script>
+		<script type="text/javascript" src="js/view/main-view.js"></script>
+		<script type="text/javascript" src="js/controller/router.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+
+	</body>
+</html>
