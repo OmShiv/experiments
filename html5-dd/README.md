@@ -1,7 +1,8 @@
 backbone-html5-app
 ==================
 
-An app using backbone for MVC in the frontend. 
+An app using BackboneJS for MVC in the frontend. 
+
 Images can be dropped from OS (any file / folder) into the browser (Drop placeholder)
 
 Requires your browser to support:
