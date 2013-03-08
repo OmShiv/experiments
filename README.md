@@ -1,6 +1,9 @@
-experiments
+Experiments
 ===========
 
 HTML5 CSS3 and JavaScript Experiments, for fun !!
 
-Access them in the browser: http://omshiv.github.com/experiments/
+URL: http://omshiv.github.com/experiments 
+(Links to individual experiments not updated. Access them from their README)
+
+
