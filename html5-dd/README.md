@@ -7,7 +7,7 @@ Images can be dropped from OS (any file / folder) into the browser (Drop placeho
 Requires your browser to support:
 - File API
 - HTML5 DnD
-- LocalStorage (Be sure to toggle "Clear LocalStorage", once you are done playing. lot of data is stored in that !!)
+- LocalStorage (Be sure to toggle "Clear LocalStorage", once you are done playing. Coz lots of data is stored in that !!)
 
 Still optimizing it for File Blob and a better UI
 
