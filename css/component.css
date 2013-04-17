@@ -15,9 +15,9 @@
 	padding: 1.6em;
 	cursor: pointer;
 	position: relative;
-	-webkit-transition: background 0.18s ease-in-out;
-	   -moz-transition: background 0.18s ease-in-out;
-	        transition: background 0.18s ease-in-out;
+	-webkit-transition: all 0.18s ease-in-out;
+	   -moz-transition: all 0.18s ease-in-out;
+	        transition: all 0.18s ease-in-out;
 }
 
 .rb-grid li.rb-span-2 {
@@ -150,14 +150,14 @@
 .rb-grid li:nth-child(4) { background: #C24747; }
 .rb-grid li:nth-child(4):hover { background: #F02424; }
 
-.rb-grid li:nth-child(5) { background: #e2674a; }
-.rb-grid li:nth-child(5):hover { background: #EE9E11; }
+.rb-grid li:nth-child(5) { background: #FDAE0E; }
+.rb-grid li:nth-child(5):hover { background: #F17808; }
 
-.rb-grid li:nth-child(6) { background: #FFCC66; }
-.rb-grid li:nth-child(6):hover { background: #F7E409; }
+.rb-grid li:nth-child(6) { background: #0BB2F3; }
+.rb-grid li:nth-child(6):hover { background: #2D8D8D; }
 
 .rb-grid li:nth-child(7) { background: #99CC99; }
-.rb-grid li:nth-child(7):hover { background: #10FF10; }
+.rb-grid li:nth-child(7):hover { background: #12C212; }
 
 .rb-grid li:nth-child(8) { background: #8E4EDF; }
 .rb-grid li:nth-child(8):hover { background: #741DE2; }
@@ -166,7 +166,7 @@
 .rb-grid li:nth-child(9):hover { background: #F10B7E; }
 
 .rb-grid li:nth-child(10) { background: #339966; }
-.rb-grid li:nth-child(10):hover { background: #194975; }
+.rb-grid li:nth-child(10):hover { background: #194976; }
 
 /* Overlay Columns */
 .rb-grid li:nth-child(1) .rb-week > div:nth-child(1) { background: #3399CC; }
