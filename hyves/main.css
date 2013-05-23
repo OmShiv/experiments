@@ -12,7 +12,6 @@ html, body {
 	list-style-type: none;
 	overflow: hidden;
 	width: 960px;
-	padding-top: 10px;
 }
 
 ul.photo-grid li {
@@ -21,11 +20,9 @@ ul.photo-grid li {
 	text-align: center;
 	display: inline-block;
 	margin-top: 10px;
+	margin-right: 10px;
 }
 
-li.photo:nth-of-type(4n+1) { margin-left: 0; }
-
-.photo + .photo { margin-left: 10px; }
 .photo-link { display: inline-block; text-decoration: none; font-weight: bold; color: #888; }
 .photo-img { 
 	display: block; margin-bottom: 5px;
