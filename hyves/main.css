@@ -1,0 +1,50 @@
+/* assume a reset.css */
+
+
+/* main css starts here */
+
+html, body {
+	height: 100%;
+	font-family: "Lucida Grande", Garamond, Arial, Verdana, sans-serif;
+}
+
+.photo-grid {
+	list-style-type: none;
+	overflow: hidden;
+	width: 960px;
+	padding-top: 10px;
+}
+
+ul.photo-grid li {
+	width: 206px;
+	padding: 0 10px;
+	text-align: center;
+	display: inline-block;
+	margin-top: 10px;
+}
+
+li.photo:nth-of-type(4n+1) { margin-left: 0; }
+
+.photo + .photo { margin-left: 10px; }
+.photo-link { display: inline-block; text-decoration: none; font-weight: bold; color: #888; }
+.photo-img { 
+	display: block; margin-bottom: 5px;
+	border: 1px solid #888;
+	padding: 2px;
+}
+
+/* extras */
+
+ul.photo-grid {
+	margin: 30px auto;
+	padding: 20px 0;
+}
+
+.photo img, .photo a { 
+	-webkit-transition: all 0.18s ease-in-out;
+	-moz-transition: all 0.18s ease-in-out;
+	-ms-transition: all 0.18s ease-in-out;
+	transition: all 0.18s ease-in-out;
+}
+.photo:hover img { box-shadow: 0 0 15px #555; }
+.photo:hover a { color: #303dc9; font-weight: bold; }
