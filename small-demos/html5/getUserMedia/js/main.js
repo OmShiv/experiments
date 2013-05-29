@@ -1,4 +1,3 @@
-
 var constraints = {
     video: true,    // ask for Camera
     audio: true     // ask for Microphone
