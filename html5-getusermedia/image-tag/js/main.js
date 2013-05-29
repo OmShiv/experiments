@@ -25,7 +25,7 @@ function successCallback(localMediaStream) {
     // irrespective of browser inconsistencies in video resolutions
     
     video.addEventListener('canplay', function(e){
-        // can play will fire continuosly till the stream is available
+        // canplay will fire continuously till the stream is available
         // and hence this check, for making it fire only once
         if (!videoIsStreaming) { 
             baseHeight = video.videoHeight / (video.videoWidth/baseWidth);

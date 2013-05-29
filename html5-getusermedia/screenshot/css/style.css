@@ -36,7 +36,7 @@ body, button, p { font-family: Cambria, Helvetica, sans-serif; font-size: 20px; 
   -moz-transition: all 0.18s ease-in-out;
   -ms-transition: all 0.18s ease-in-out;
 }
-.screenshot:hover { background-color: #F02424; /* d14836 */; color: #fff; }
+.screenshot:hover { background-color: #F02424; color: #fff; }
 .screenshot:active { box-shadow: 0 0 20px rgba(0,0,0,0.5) inset; }
 
 video, canvas {

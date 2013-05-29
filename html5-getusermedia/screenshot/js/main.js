@@ -24,7 +24,7 @@ function successCallback(localMediaStream) {
     // irrespective of browser inconsistencies in video resolutions
     
     video.addEventListener('canplay', function(e){
-        // can play will fire continuosly till the stream is available
+        // canplay will fire continuously till the stream is available
         // and hence this check, for making it fire only once
         if (!videoIsStreaming) { 
             baseHeight = video.videoHeight / (video.videoWidth/baseWidth);
@@ -52,6 +52,8 @@ navigator.getMedia = (
 
 navigator.getMedia ( constraints, successCallback, errorCallback );
 
+// Attaching event handler to the button to take screenshot
 screenShotBtn.addEventListener('click', function(){
+    // This one line of code draws the current frame as an image on the canvas
     canvasCtx.drawImage(video, 0, 0, baseWidth, baseHeight);
 }, false);
