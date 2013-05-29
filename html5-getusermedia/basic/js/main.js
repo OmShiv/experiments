@@ -6,7 +6,12 @@ var constraints = {
 var video = document.querySelector('video');
 
 function successCallback(localMediaStream) {
-    video.src = window.URL.createObjectURL(localMediaStream);
+    if (navigator.mozGetUserMedia) { 
+        video.mozSrcObject = stream; // only for FF
+    } else {
+        var vendorURL = window.URL || window.webkitURL;
+        video.src = vendorURL.createObjectURL(localMediaStream);
+    }
     video.play(); // not doing this doesn't work in some browsers
 }
 
