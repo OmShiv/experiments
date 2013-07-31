@@ -1,169 +1,183 @@
 var HTML5DD = HTML5DD || {};
 
-HTML5DD.Main = Backbone.View.extend({
+jQuery(document).ready(function($) {
 
-    el: '#html5-dd-app',
+	(function(App, w, d) {
 
-    getOriginalEvt: function(e) {
-        return (e && e.hasOwnProperty('originalEvent')) ? e.originalEvent : e;
-    },
+		App = w.HTML5DD || App;
 
-    emasculate: function(e) {
-        e.preventDefault(); e.stopPropagation();
-    },
+		q = d.querySelector || function (id) {
+			return d.getElementById(id) ? d.getElementById(id) : false;
+		}
 
-    statsTemplate: _.template( $('#stats-template').html() ),
+		App.Main = Backbone.View.extend({
 
-    events: {
-        'drop #drop-div': 'createImage',
-        'click #delete-all': 'deleteAll',
-        'click #like-all': 'likeAll',
-        'click .local-storage-div': 'changeClass'
-    },
+			el: '#html5-dd-app',
 
-    initialize: function() {
-        var _this = this;
+			getOriginalEvt: function(e) {
+				return (e && e.hasOwnProperty('originalEvent')) ? e.originalEvent : e ? e : null;
+			},
 
-        // Binding here since this is off track.
-        // Your browser might not be the active application, still you want to be able to drag drop
-        // right? so thats for it !!
+			emasculate: function(e) {
+				e.preventDefault(); e.stopPropagation();
+			},
 
-        $(this.el).on('dragenter dragover', function(backboneDDEvt) {
-            backboneDDEvt.preventDefault();
-            backboneDDEvt.stopPropagation();
-            _this.$dropDiv.addClass('hover-class');
-        });
-        $(this.el).on('dragend', function(backboneDDEvt) {
-            _this.$dropDiv.removeClass('hover-class');
-        });
+			statsTemplate: _.template( $('#stats-template').html() ),
 
-        $(window).on('beforeunload', function(e) {
-            _this.clearStorage(e);
-        })
+			events: {
+				'drop #drop-div': 'createImage',
+				'click #delete-all': 'deleteAll',
+				'click #like-all': 'likeAll',
+				'click .local-storage-div': 'changeClass'
+			},
 
-        this.$dropDiv = this.$('#drop-div');
-        this.$output = this.$('#output');
-        this.$controls = this.$('#filters-div');
-        
-        HTML5DD.Collection.on('add', this.addImages, this );
-        HTML5DD.Collection.on('reset', this.addImages, this );
-        HTML5DD.Collection.on('change:liked', this.applyOnItem, this);
-        HTML5DD.Collection.on('filter', this.applyOnCollection, this);
+			initialize: function() {
+				var _this = this;
 
-        HTML5DD.Collection.on('all', this.render, this);
+				// Binding here since this is off track.
+				// Your browser might not be the active application, still you want to be able to drag drop
+				// right? so thats for it !!
 
-        HTML5DD.Collection.fetch();
-    },
+				$(this.el).on('dragenter dragover', function(backboneDDEvt) {
+					backboneDDEvt.preventDefault();
+					backboneDDEvt.stopPropagation();
+					_this.$dropDiv.addClass('hover-class');
+				});
+				$(this.el).on('dragend', function(backboneDDEvt) {
+					_this.$dropDiv.removeClass('hover-class');
+				});
 
-    render: function() {
-        var liked = HTML5DD.Collection.liked().length,
-            unliked = HTML5DD.Collection.unliked().length;
+				$(w).on('beforeunload', function(e) {
+					_this.clearStorage(e);
+				})
 
-        if ( HTML5DD.Collection.length ) {
-            this.$output.show();
-            this.$controls.show();
+				this.$dropDiv = this.$('#drop-div');
+				this.$output = this.$('#output');
+				this.$controls = this.$('#filters-div');
+				
+				App.Collection.on('add', this.addImages, this );
+				App.Collection.on('reset', this.addImages, this );
+				App.Collection.on('change:liked', this.applyOnItem, this);
+				App.Collection.on('filter', this.applyOnCollection, this);
 
-            this.$controls.html(this.statsTemplate({
-                liked: liked,
-                unliked: unliked
-            }));
+				App.Collection.on('all', this.render, this);
 
-            this.$('#filters').find('a.filter')
-                .removeClass('on')
-                .filter('[href="#/' + ( HTML5DD.Scan || '' ) + '"]')
-                .addClass('on');
-        } else {
-            this.$output.hide();
-            this.$controls.hide();
-        }
-    },
+				App.Collection.fetch();
+			},
 
-    addImage: function( item ) {
-        var thisHTML = new HTML5DD.ItemHTML({ model: item });
-        this.$output.append( thisHTML.render().el );
-    },
+			render: function() {
+				var liked = App.Collection.liked().length,
+					unliked = App.Collection.unliked().length;
 
-    addImages: function() {
-        this.$output.html('');
-        HTML5DD.Collection.each(this.addImage, this);
-    },
+				if ( App.Collection.length ) {
+					this.$output.show();
+					this.$controls.show();
 
-    applyOnItem : function (item) {
-        item.trigger('show');
-    },
+					this.$controls.html(this.statsTemplate({
+						liked: liked,
+						unliked: unliked
+					}));
 
-    applyOnCollection : function () {
-        HTML5DD.Collection.each(this.applyOnItem, this);
-    },
+					this.$('#filters').find('a.filter')
+						.removeClass('on')
+						.filter('[href="#/' + ( App.Scan || '' ) + '"]')
+						.addClass('on');
+				} else {
+					this.$output.hide();
+					this.$controls.hide();
+				}
+			},
 
-    newAttributes: function(file) {
-        var image = d.createElement('image'),
-            height;
+			addImage: function( item ) {
+				var thisHTML = new App.ItemHTML({ model: item });
+				this.$output.append( thisHTML.render().el );
+			},
 
-        image.src = file.dataurl;
-        height = 100 * image.height / image.width;
+			addImages: function() {
+				this.$output.html('');
+				App.Collection.each(this.addImage, this);
+			},
 
-        return {
-            title: file.name,
-            dataURL: file.dataurl,
-            order: HTML5DD.Collection.nextOrder(),
-            height: height,
-            liked: false
-        };
-    },
+			applyOnItem : function (item) {
+				item.trigger('show');
+			},
 
-    createImage: function( e ) {
-        var _this = this,
-            ddEvt = this.getOriginalEvt(e),
-            filesList = ddEvt.dataTransfer.files;
+			applyOnCollection : function () {
+				App.Collection.each(this.applyOnItem, this);
+			},
 
-        if (!ddEvt.dataTransfer) return;
+			newAttributes: function(file) {
+				var image = d.createElement('image'),
+					height;
 
-        ddEvt.stopPropagation(); ddEvt.preventDefault();
-        _this.$dropDiv.removeClass('hover-class');
+				image.src = file.dataurl;
+				height = 100 * image.height / image.width;
 
-        _.each( filesList, function( file ) {
-            if (! /^image/.test(file.type)) return;
-            var reader = new window.FileReader(),
-                fileObject = {};
+				return {
+					title: file.name,
+					dataURL: file.dataurl,
+					order: App.Collection.nextOrder(),
+					height: height,
+					liked: false
+				};
+			},
 
-            reader.onload = function (event) {
-                fileObject.dataurl = event.target.result;
-                fileObject.name = file.name;
+			createImage: function( e ) {
+				var _this = this,
+					ddEvt = this.getOriginalEvt(e),
+					filesList = ddEvt.dataTransfer.files;
 
-                // This will call Backbone's "add" method for model, automatically
-                HTML5DD.Collection.create( _this.newAttributes( fileObject ) );
-            };
+				if (!ddEvt.dataTransfer) return;
 
-            reader.readAsDataURL(file);
+				ddEvt.stopPropagation(); ddEvt.preventDefault();
+				_this.$dropDiv.removeClass('hover-class');
 
-        });
+				_.each( filesList, function( file ) {
+					if (! /^image/.test(file.type)) return;
+					var reader = new w.FileReader(),
+						fileObject = {};
 
-    },
+					reader.onload = function (event) {
+					  	fileObject.dataurl = event.target.result;
+					  	fileObject.name = file.name;
 
-    changeClass: function() {
-        $('.local-storage-div').toggleClass('selected');
-    },
+					  	// This will call Backbone's "add" method for model, automatically
+					  	App.Collection.create( _this.newAttributes( fileObject ) );
+					};
 
-    clearStorage: function() {
-        if( $('.local-storage-div').hasClass('selected') ) {
-            alert('Local Storage will be cleared');
-            localStorage.clear('HTML5DD');
-        }
-    },
+				  	reader.readAsDataURL(file);
+					
+				});
 
-    // Clear all completed todo items, destroying their models.
-    deleteAll: function() {
-        _.each( HTML5DD.Collection.liked(), function( item ) {
-            item.destroy();
-        });
+	  		},
 
-        return false;
-    },
+	  		changeClass: function() {
+	  			$('.local-storage-div').toggleClass('selected');
+	  		},
 
-    likeAll: function() {
-        HTML5DD.Collection.each(function( item ) {
-            item.save({ 'liked': liked });
-        });
-    }
+	  		clearStorage: function() {
+	  			if( $('.local-storage-div').hasClass('selected') ) {
+	  				alert('Local Storage will be cleared');
+	  				localStorage.clear('HTML5DD');
+	  			}
+	  		},
+
+			// Clear all completed todo items, destroying their models.
+			deleteAll: function() {
+				_.each( App.Collection.liked(), function( item ) {
+					item.destroy();
+				});
+
+				return false;
+			},
+
+			likeAll: function() {
+				App.Collection.each(function( item ) {
+					item.save({ 'liked': liked });
+				});
+			}
+		});
+
+	}(HTML5DD, window, window.document));
+
 });

@@ -1,58 +1,61 @@
 var HTML5DD = HTML5DD || {};
 
-HTML5DD.ItemHTML = Backbone.View.extend({
+jQuery(document).ready(function($) {
 
-    tagName: 'div',
+	HTML5DD.ItemHTML = Backbone.View.extend({
 
-    template: _.template( $('#image-tpl').html() ),
+		tagName: 'div',
 
-    events: {
-        'click .control.like' : 'toggleLike',
-        'click .delete' : 'deletItem'
-    },
+		template: _.template( $('#image-tpl').html() ),
 
-    initialize: function() {
-        this.model.on( 'change', this.render, this );
-        this.model.on( 'destroy', this.remove, this );
-        this.model.on( 'show', this.showHide, this );
-    },
+		events: {
+			'click .control.like' : 'toggleLike',
+			'click .delete'	: 'deletItem'
+		},
 
-    render: function() {
-        var _this = this;
-        this.$el
-            .addClass('item')
-            .html( this.template( this.model.toJSON() ) )
+		initialize: function() {
+			this.model.on( 'change', this.render, this );
+			this.model.on( 'destroy', this.remove, this );
+			this.model.on( 'show', this.showHide, this );
+		},
 
-        this.$el.find('.control.like')
-            .toggleClass( 'selected', this.model.get('liked') )
-            .text(function() {
-                return _this.model.get('liked') ? "Liked" : "Like"
-            });
+		render: function() {
+			var _this = this;
+			this.$el
+				.addClass('item')
+				.html( this.template( this.model.toJSON() ) )
 
-        this.showHide();
-        return this;
-    },
+			this.$el.find('.control.like')
+				.toggleClass( 'selected', this.model.get('liked') )
+				.text(function() {
+					return _this.model.get('liked') ? "Liked" : "Like"
+				});
 
-    showHide : function () {
-        // class will be added dynamically depending on current router state, when it changes
-        // as render is called on every change, which in turn, calls this function
-        this.$el.toggleClass( 'hidden',  this.isHidden());
-    },
+			this.showHide();
+			return this;
+		},
 
-    isHidden : function () {
-        var isLiked = this.model.get('liked');
+		showHide : function () {
+			// class will be added dynamically depending on current router state, when it changes
+			// as render is called on every change, which in turn, calls this function
+			this.$el.toggleClass( 'hidden',  this.isHidden());
+		},
 
-        // This will be dynamically true / false,
-        // Depending on your application's current router state - the #link
-        // which acts as a filter
-        return ( (!isLiked && HTML5DD.Scan === 'liked') || (isLiked && HTML5DD.Scan === 'not-liked') );
-    },
+		isHidden : function () {
+			var isLiked = this.model.get('liked');
 
-    toggleLike: function() {
-        this.model.toggle();
-    },
+			// This will be dynamically true / false,
+			// Depending on your application's current router state - the #link
+			// which acts as a filter
+			return ( (!isLiked && HTML5DD.Scan === 'liked') || (isLiked && HTML5DD.Scan === 'not-liked') );
+		},
 
-    deletItem: function() {
-        this.model.destroy();
-    }
+		toggleLike: function() {
+			this.model.toggle();
+		},
+
+		deletItem: function() {
+			this.model.destroy();
+		}
+	});
 });
