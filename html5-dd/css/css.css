@@ -62,7 +62,7 @@
 	}
 
 	.item img {
-		border: 1px solid rgba(43, 43, 44, 0.5);;
+		border: 1px solid rgba(43, 43, 44, 0.5);
 		padding: 4px;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.32);
 		-moz-transition: all ease-in-out .12s;

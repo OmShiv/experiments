@@ -1,0 +1,45 @@
+body, button, p { font-family: Cambria, Helvetica, sans-serif; font-size: 20px; text-transform: uppercase; color: #fff; }
+
+.video-container { background-color: #0BB2F3; }
+.canvas-container { background-color: #FDAE0E; margin-left: 20px; }
+
+.parent {
+  width: 910px;
+  margin: 5% auto;
+  padding: 0.5em;
+}
+
+.video-container, .canvas-container {
+  display: inline-block;
+  float: left;
+  width: 400px;
+  height: 300px;
+  padding: 20px;
+  box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+}
+
+.screenshot, .info {
+  display: inline-block;
+  width: 900px;
+  padding: 30px 0;
+  text-align: center;
+  background-color: #C24747;
+  box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+}
+.info { margin-bottom: 20px; background-color: #396; }
+.screenshot {
+  border: 0;
+  margin-top: 20px;
+  cursor: pointer;
+  
+  -webkit-transition: all 0.18s ease-in-out;
+  -moz-transition: all 0.18s ease-in-out;
+  -ms-transition: all 0.18s ease-in-out;
+}
+.screenshot:hover { background-color: #F02424; color: #fff; }
+.screenshot:active { box-shadow: 0 0 20px rgba(0,0,0,0.5) inset; }
+
+video, canvas, img {
+  width: 400px;
+  height: 300px;
+}
