@@ -1,5 +1,7 @@
 body, button, p { font-family: Cambria, Helvetica, sans-serif; font-size: 20px; text-transform: uppercase; color: #fff; }
 
+body { background: yellow; }
+:focus { outline: none; }
 .video-container { background-color: #0BB2F3; }
 .canvas-container { background-color: #FDAE0E; margin-left: 20px; }
 
@@ -23,7 +25,7 @@ body, button, p { font-family: Cambria, Helvetica, sans-serif; font-size: 20px; 
   width: 900px;
   padding: 30px 0;
   text-align: center;
-  background-color: #C24747;
+  background-color: #BE2A2A;
   box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
 }
 .info { margin-bottom: 20px; background-color: #396; }
@@ -38,8 +40,16 @@ body, button, p { font-family: Cambria, Helvetica, sans-serif; font-size: 20px; 
 }
 .screenshot:hover { background-color: #F02424; color: #fff; }
 .screenshot:active { box-shadow: 0 0 20px rgba(0,0,0,0.5) inset; }
+.screenshot.ongoing,
+.screenshot.ongoing:active { box-shadow: none; background-color: #520505; }
 
-video, canvas {
+video, canvas, img {
   width: 400px;
   height: 300px;
+}
+
+#live-feed {
+  -webkit-transform: scaleX(-1);
+  -moz-transform: scaleX(-1);
+  transform: scaleX(-1);
 }

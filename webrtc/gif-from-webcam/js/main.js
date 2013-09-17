@@ -4,9 +4,11 @@ var constraints = {
 }
 
 var video = document.querySelector('video'),
+    image = document.querySelector('#image-screen'),
     canvas = document.querySelector('canvas'),
     canvasCtx = canvas.getContext('2d'),
     screenShotBtn = document.querySelector('#take-screen'),
+    screenShotBtnTxt = screenShotBtn.innerText || screenShotBtn.textContent,
     videoIsStreaming = false,
         
     baseWidth = 400,
@@ -32,6 +34,11 @@ function successCallback(localMediaStream) {
             video.setAttribute('height',    baseHeight);
             canvas.setAttribute('width',    baseWidth);
             canvas.setAttribute('height',   baseHeight);
+            
+            // C. Heilmann fix
+            canvas.translate(baseWidth, 0);
+            canvas.scale(-1, 1);
+
             videoIsStreaming = true;
         }
     }, false);
@@ -52,8 +59,50 @@ navigator.getMedia = (
 
 navigator.getMedia ( constraints, successCallback, errorCallback );
 
-// Attaching event handler to the button to take screenshot
+var RecordingGifStatus = false;
 screenShotBtn.addEventListener('click', function(){
-    // This one line of code draws the current frame as an image on the canvas
-    canvasCtx.drawImage(video, 0, 0, baseWidth, baseHeight);
+    var encoder = new GIFEncoder(),
+        gifInterval,
+        textProperty = this.innerText ? 'innerText' : 'textContent',
+        frameLimit = 30,
+        frameRate = 100, // ms
+        frameCount = 0;
+
+    this[textProperty] = 'Recording';
+    this.classList.add('ongoing');
+
+    if (RecordingGifStatus) return false;
+    RecordingGifStatus = true;
+
+    encoder.setRepeat(0);
+    encoder.setDelay(300);
+
+    console.log(encoder.start());
+
+    gifInterval = window.setInterval(function(){
+        frameCount++;
+        if (frameCount > frameLimit) {
+            window.clearInterval(gifInterval);
+            processGif(encoder, image, canvas);
+            screenShotBtn[textProperty] = screenShotBtnTxt;
+            screenShotBtn.classList.remove('ongoing');
+            RecordingGifStatus = false;
+            return false;
+        }
+        canvasCtx.drawImage(video, 0, 0, baseWidth, baseHeight);
+        console.log('Added Frame -- ' + frameCount + ':: Status -- ' + encoder.addFrame(canvasCtx));
+    }, frameRate);
+
 }, false);
+
+function processGif(encoder){
+    var imageData;
+    encoder.finish();
+
+    imageData = canvas.toDataURL('image/png');
+    image.setAttribute('src', 
+        'data:image/gif;base64,' + encode64( 
+                encoder.stream().getData()
+            )
+        );
+}

@@ -4,6 +4,12 @@
     <title>HTML5 getUserMedia | Screenshot of Webcam Video</title>
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <script type="text/javascript" src="js/jsgif/LZWEncoder.js"></script>
+    <script type="text/javascript" src="js/jsgif/NeuQuant.js"></script>
+    <script type="text/javascript" src="js/jsgif/GIFEncoder.js"></script>
+    <script type="text/javascript" src="js/jsgif/b64.js"></script>
+
 </head>
 <body>
   <div class="parent">
@@ -17,7 +23,8 @@
     </div>
 
     <div class="canvas-container">
-      <canvas id="canvas-screen"></canvas>
+      <img id="image-screen" src="" alt="Screenshot from Webcam will be put here" />
+      <canvas id="canvas-screen" style="display: none;"></canvas>
     </div>
 
     <button id="take-screen" class="screenshot">

@@ -1,5 +1,5 @@
 body, button, p { font-family: Cambria, Helvetica, sans-serif; font-size: 20px; text-transform: uppercase; color: #fff; }
-
+:focus { outline: none; }
 .video-container { background-color: #0BB2F3; }
 .canvas-container { background-color: #FDAE0E; margin-left: 20px; }
 
