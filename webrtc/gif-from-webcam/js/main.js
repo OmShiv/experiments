@@ -36,8 +36,8 @@ function successCallback(localMediaStream) {
             canvas.setAttribute('height',   baseHeight);
             
             // C. Heilmann fix
-            canvas.translate(baseWidth, 0);
-            canvas.scale(-1, 1);
+            canvasCtx.translate(baseWidth, 0);
+            canvasCtx.scale(-1, 1);
 
             videoIsStreaming = true;
         }
@@ -59,39 +59,44 @@ navigator.getMedia = (
 
 navigator.getMedia ( constraints, successCallback, errorCallback );
 
-var RecordingGifStatus = false;
+var RecordConfig = {
+    RecordingGifStatus: false,
+    frameLimit: 30,
+    frameRate: 300
+}
+
 screenShotBtn.addEventListener('click', function(){
     var encoder = new GIFEncoder(),
         gifInterval,
         textProperty = this.innerText ? 'innerText' : 'textContent',
-        frameLimit = 30,
-        frameRate = 100, // ms
+        RecordConfig.frameLimit = 30,
+        RecordConfig.frameRate = 300, // ms
         frameCount = 0;
 
     this[textProperty] = 'Recording';
     this.classList.add('ongoing');
 
-    if (RecordingGifStatus) return false;
-    RecordingGifStatus = true;
+    if (RecordConfig.RecordingGifStatus) return false;
+    RecordConfig.RecordingGifStatus = true;
 
     encoder.setRepeat(0);
     encoder.setDelay(300);
 
     console.log(encoder.start());
-
+    encoder.setSize(canvas.width, canvas.height);
     gifInterval = window.setInterval(function(){
         frameCount++;
-        if (frameCount > frameLimit) {
+        if (frameCount > RecordConfig.frameLimit) {
             window.clearInterval(gifInterval);
             processGif(encoder, image, canvas);
             screenShotBtn[textProperty] = screenShotBtnTxt;
             screenShotBtn.classList.remove('ongoing');
-            RecordingGifStatus = false;
+            RecordConfig.RecordingGifStatus = false;
             return false;
         }
         canvasCtx.drawImage(video, 0, 0, baseWidth, baseHeight);
         console.log('Added Frame -- ' + frameCount + ':: Status -- ' + encoder.addFrame(canvasCtx));
-    }, frameRate);
+    }, RecordConfig.frameRate);
 
 }, false);
 

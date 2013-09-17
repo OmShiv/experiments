@@ -35,8 +35,8 @@ function successCallback(localMediaStream) {
             canvas.setAttribute('height',   baseHeight);
             
             // C. Heilmann fix
-            canvas.translate(baseWidth, 0);
-            canvas.scale(-1, 1);
+            canvasCtx.translate(baseWidth, 0);
+            canvasCtx.scale(-1, 1);
 
             videoIsStreaming = true;
         }
