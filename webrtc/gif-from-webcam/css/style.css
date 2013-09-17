@@ -1,6 +1,5 @@
 body, button, p { font-family: Cambria, Helvetica, sans-serif; font-size: 20px; text-transform: uppercase; color: #fff; }
 
-body { background: yellow; }
 .video-container { background-color: #0BB2F3; }
 .canvas-container { background-color: #FDAE0E; margin-left: 20px; }
 
@@ -40,13 +39,7 @@ body { background: yellow; }
 .screenshot:hover { background-color: #F02424; color: #fff; }
 .screenshot:active { box-shadow: 0 0 20px rgba(0,0,0,0.5) inset; }
 
-video, canvas, img {
+video, canvas {
   width: 400px;
   height: 300px;
-}
-
-#live-feed {
-  -webkit-transform: scaleX(-1);
-  -moz-transform: scaleX(-1);
-  transform: scaleX(-1);
 }

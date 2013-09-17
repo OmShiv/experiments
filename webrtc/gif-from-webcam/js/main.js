@@ -4,7 +4,6 @@ var constraints = {
 }
 
 var video = document.querySelector('video'),
-    image = document.querySelector('#image-screen'),
     canvas = document.querySelector('canvas'),
     canvasCtx = canvas.getContext('2d'),
     screenShotBtn = document.querySelector('#take-screen'),
@@ -33,10 +32,6 @@ function successCallback(localMediaStream) {
             video.setAttribute('height',    baseHeight);
             canvas.setAttribute('width',    baseWidth);
             canvas.setAttribute('height',   baseHeight);
-            
-            // C. Heilmann fix
-            canvas.translate(baseWidth, 0);
-            canvas.scale(-1, 1);
             videoIsStreaming = true;
         }
     }, false);
@@ -57,15 +52,8 @@ navigator.getMedia = (
 
 navigator.getMedia ( constraints, successCallback, errorCallback );
 
+// Attaching event handler to the button to take screenshot
 screenShotBtn.addEventListener('click', function(){
+    // This one line of code draws the current frame as an image on the canvas
     canvasCtx.drawImage(video, 0, 0, baseWidth, baseHeight);
-    
-    // but this canvas is hidden
-    // let's put the data from the Canvas to our image
-    // this will be a base64 encoded string representing the image
-    // ... thanks to various canvas APIs
-    
-    var imageData = canvas.toDataURL('image/png');
-    image.setAttribute('src', imageData);
-
 }, false);
