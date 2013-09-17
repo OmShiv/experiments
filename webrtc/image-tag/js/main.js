@@ -37,6 +37,7 @@ function successCallback(localMediaStream) {
             // C. Heilmann fix
             canvas.translate(baseWidth, 0);
             canvas.scale(-1, 1);
+
             videoIsStreaming = true;
         }
     }, false);
