@@ -61,7 +61,7 @@ navigator.getMedia ( constraints, successCallback, errorCallback );
 
 var RecordConfig = {
     RecordingGifStatus: false,
-    frameLimit: 30,
+    frameLimit: 5,
     frameRate: 300
 }
 
