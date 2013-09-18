@@ -69,8 +69,6 @@ screenShotBtn.addEventListener('click', function(){
     var encoder = new GIFEncoder(),
         gifInterval,
         textProperty = this.innerText ? 'innerText' : 'textContent',
-        RecordConfig.frameLimit = 30,
-        RecordConfig.frameRate = 300, // ms
         frameCount = 0;
 
     this[textProperty] = 'Recording';
@@ -82,7 +80,7 @@ screenShotBtn.addEventListener('click', function(){
     encoder.setRepeat(0);
     encoder.setDelay(300);
 
-    console.log(encoder.start());
+    console.log('GIF Encoder Started', encoder.start());
     encoder.setSize(canvas.width, canvas.height);
     gifInterval = window.setInterval(function(){
         frameCount++;
