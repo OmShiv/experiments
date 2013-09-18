@@ -103,9 +103,11 @@ function processGif(encoder){
     encoder.finish();
 
     imageData = canvas.toDataURL('image/png');
-    image.setAttribute('src', 
-        'data:image/gif;base64,' + encode64( 
-                encoder.stream().getData()
-            )
-        );
+    imageData = encoder.stream().getData();
+    // image.setAttribute('src', 
+    //     'data:image/gif;base64,' + encode64( 
+    //             encoder.stream().getData()
+    //         )
+    //     );
+    image.setAttribute('src', 'data:image/gif;base64,' + btoa(imageData));
 }
