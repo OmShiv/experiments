@@ -60,12 +60,10 @@ video, canvas, img {
   top: 30px;
   border: 1px solid rgba(194, 135, 124, 0.5);
   background: rgba(255, 215, 0, 1);
-  padding: 10px 10px 8px;
+  padding: 7px 10px 10px;
   z-index: 999;
   cursor: pointer;
   text-align: center;
-  text-transform: capitalize;
-  font-family: "Roboto", sans-serif;
   border-radius: 2px;
   -webkit-transition: all 0.18s ease-in-out;
   -webkit-user-select: none;

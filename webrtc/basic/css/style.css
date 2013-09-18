@@ -35,8 +35,6 @@ video {
   z-index: 999;
   cursor: pointer;
   text-align: center;
-  text-transform: capitalize;
-  font-family: "Roboto", sans-serif;
   border-radius: 2px;
   -webkit-transition: all 0.18s ease-in-out;
   -webkit-user-select: none;
