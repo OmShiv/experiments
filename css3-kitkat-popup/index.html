@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Android KitKat Popup</title>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+<style type="text/css">
+  html, body { 
+    height: 100%;
+    background: url(kitkat.jpg) no-repeat center center fixed; 
+    background-size: cover;
+  }
+  body {
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 30px;
+    background: transparent;
+  }
+
+  #settings-icon {
+    width: 128px;
+    height: 59px;
+    margin: 0 auto;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+  }
+  #settings-icon:before {
+    content: '';
+    width: 128px;
+    height: 42px;
+    border: 15px solid #fff;
+    border-bottom: none;
+    position: absolute;
+    left: -15px;
+  } 
+  #settings-icon:after {
+    content: '';
+    width: 98px;
+    height: 14px;
+    position: absolute;
+    background-color: #fff;
+    top: 30px;
+    left: 15px;
+  }
+
+  .footer-trick { min-height: 100%; margin-bottom: -80px; z-index: -1; }
+  .footer-trick:after {
+    content: "";
+    display: block;
+  }
+
+  .settings-icon, .footer-trick:after {
+    height: 80px;
+  }
+
+  .options {    
+    opacity: 0;
+    background-color: rgb(48,48,48);
+    position: absolute;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0, 0.7);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    left: 50%;
+    bottom: 80px;
+    margin-left: -7.5em;
+
+    /* Effects */
+    -webkit-transform: scale(0.95, 0.95);
+    -moz-transform: scale(0.9, 0.8);
+    -webkit-transition: all 0.12s ease-in-out;
+    -moz-transition: all 0.12s ease-in-out;
+  }
+
+  .options > div {
+    padding: 22px 14px;
+    min-width: 14em;
+    max-width: 14em;
+  }
+
+  .options > div + div { border-top: 2px solid rgb(71, 71, 71); }
+
+  #settings-icon:hover + .options {
+    opacity: 1;
+    -webkit-transform: scale(1,1);
+    -moz-transform: scale(1,1);
+  }
+</style>
+
+</head>
+<body>
+  <div class="footer-trick"></div>
+  <div id="settings-icon"></div>
+  <div class="options">
+    <div>Wallpaper</div>
+    <div>Manage Apps</div>
+    <div>Widgets</div>
+    <div>Camera</div>
+    <div>System Settings</div>
+  </div>
+</body>
+</html>
+
+
