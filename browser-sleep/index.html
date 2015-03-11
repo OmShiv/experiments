@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>InActive browser n/w call</title>
+  <style>
+  #repo-list {
+    list-style-type: none;
+  }
+  #repo-list li {
+    float: left;
+    margin-right: 15px;
+    border: 1px solid #52B2A7;
+    padding: 10px;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    background-color: #A0F0BC;
+  }
+  #repo-list li:active,
+  #repo-list li:focus {
+    box-shadow: inset 0 0 5px rgba(0,0,0,.3);
+    border: 1px dotted #196960;
+  }
+
+  #repo-list li a {
+    text-decoration: none;
+    cursor: pointer;
+    color: #1E4CB0;
+    font-family: Roboto, sans-serif;
+  }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <div>
+      <ul id="repo-list"></ul>
+    </div>
+  </div>
+  <script>
+    var repouri  = 'https://api.github.com/users/OmShiv/repos',
+        list = document.querySelector('#repo-list');
+
+    var req = new XMLHttpRequest();
+    req.open("GET", repouri);
+    req.setRequestHeader('Accept','application/json; charset=utf-8');
+    req.onreadystatechange = function () {
+        if (req.readyState != 4 || req.status != 200) return;
+        if (req.responseText) {
+            processResponseText(JSON.parse(req.responseText));
+        }
+    };
+
+    var counter = 0,
+        inTerval = window.setInterval(function() {
+            counter++;
+            updateDom(counter);
+            if (counter > 10) {
+                req.send();
+                window.clearInterval(inTerval);
+            }
+        }, 1000);
+
+    function updateDom (data) {
+        list.innerHTML = '<li><a href="#">' + data + '</a></li>';
+    }
+
+    function processResponseText (data) {
+        var repoFragment = document.createDocumentFragment();
+        if (data.length) {
+            var li;
+            for (var k in data) {
+                li = document.createElement('li');
+                li.innerHTML = '<a href="'+data[k].html_url+'" target="_blank">'+data[k].name + '</a>';
+                repoFragment.appendChild(li);
+            }
+            list.innerHTML = "";
+            list.appendChild(repoFragment);
+        }
+    }
+  </script>
+</body>
+</html>
