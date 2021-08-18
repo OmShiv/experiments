@@ -1,158 +1,471 @@
 <!DOCTYPE HTML>
 <html lang="en">
-	<head>
-		<title>three.js particle tutorial</title>
-		<meta charset="utf-8">
+  <head>
+    <title>three.js particle tutorial</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+      body {
+        background-color: #000000;
+        margin: 0px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Experimental stuffz -->
+    <script type="text/javascript">
+      _linkedin_partner_id = "3356298";
+      window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+      window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+    </script>
+    <script type="text/javascript">
 
-		<style type="text/css">
-			body {
-				background-color: #000000;
-				margin: 0px;
-				overflow: hidden;
-			}
-		</style>
-		
-	</head>
-	<body>
+      (function () {
+        'use strict';
 
-		<script src="three.js"></script>
+        var getCurrentDate = function () {
+          var current_date = new Date();
+          return current_date.getTime();
+        };
+        var getFutureDate = function (milliseconds_ahead) {
+          var current_date = new Date();
+          var future = current_date.getTime() + milliseconds_ahead;
+          var future_date = new Date();
+          future_date.setTime(future);
+          return future_date.toUTCString();
+        };
 
-		<script>
+        var getCookie = function (_document, name) {
+          var matches = _document.cookie.match(new RegExp('(?:^|; )' + encodeURIComponent(name).replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'));
+          return matches ? decodeURIComponent(matches[1]) : '';
+        };
+        var setCookie = function (_document, name, value, options) {
+          var _a = options.days_until_expiration, days_until_expiration = _a === void 0 ? 1 : _a, _b = options.path, path = _b === void 0 ? '/' : _b, _c = options.domain, domain = _c === void 0 ? null : _c;
+          var one_day = 1000 * 60 * 60 * 24;
+          var offset = one_day * days_until_expiration;
+          var expiration = getFutureDate(offset);
+          var cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+          cookie = cookie + ";expires=" + expiration;
+          if (domain) {
+            cookie = cookie + ";domain=" + domain;
+          }
+          cookie = cookie + ";path=" + path;
+          _document.cookie = cookie;
+        };
 
-			// the main three.js components
-			var camera, scene, renderer,
+        var li_fat_id_key = 'li_fat_id';
+        var li_fat_cookie_expiration_days = 30;
+        var li_fat_cookie_path = '/';
+        var getLiFatIdParam = function (queryParameters) {
+          var query_key_values = queryParameters.split('&');
+          for (var _i = 0, query_key_values_1 = query_key_values; _i < query_key_values_1.length; _i++) {
+            var key_value = query_key_values_1[_i];
+            var _a = key_value.split('='), key = _a[0], value = _a[1];
+            if (key === li_fat_id_key) {
+              return decodeURIComponent(value);
+            }
+          }
+          return '';
+        };
+        var getLiFatCookie = function (_document, _getCookie) {
+          if (_getCookie === void 0) { _getCookie = getCookie; }
+          return _getCookie(_document, li_fat_id_key);
+        };
+        var setLiFatCookie = function (_document, hostname, liFatId, _getListOfAllDomains, _getCookie, _setCookie) {
+          if (_getListOfAllDomains === void 0) { _getListOfAllDomains = getListOfAllDomains; }
+          if (_getCookie === void 0) { _getCookie = getCookie; }
+          if (_setCookie === void 0) { _setCookie = setCookie; }
+          var list_of_possible_domains = _getListOfAllDomains(hostname);
+          for (var _i = 0, list_of_possible_domains_1 = list_of_possible_domains; _i < list_of_possible_domains_1.length; _i++) {
+            var domain = list_of_possible_domains_1[_i];
+            _setCookie(_document, li_fat_id_key, liFatId, {
+              days_until_expiration: li_fat_cookie_expiration_days,
+              path: li_fat_cookie_path,
+              domain: domain
+            });
+            if (_getCookie(_document, li_fat_id_key)) {
+              return;
+            }
+          }
+          if (!_getCookie(_document, li_fat_id_key)) {
+            _setCookie(_document, li_fat_id_key, liFatId, {
+              days_until_expiration: li_fat_cookie_expiration_days,
+              path: li_fat_cookie_path,
+              domain: null
+            });
+          }
+        };
+        var getListOfAllDomains = function (hostname) {
+          if (hostname === void 0) { hostname = ''; }
+          var _hostname = hostname.split('.');
+          var results = [];
+          for (var i = _hostname.length - 2; i >= 0; i--) {
+            results.push(_hostname.slice(i).join('.'));
+          }
+          return results;
+        };
 
-			// to keep track of the mouse position
-				mouseX = 0, mouseY = 0,
+        var isLinkedInInAppHandler = function (_window) {
+          return ((_window.webkit &&
+            _window.webkit.messageHandlers &&
+            _window.webkit.messageHandlers.LIPixli) ||
+            false);
+        };
+        var generateCollectPixel = function (_window, query_parameters) {
+          var pixliUrl = "https://px.ads.linkedin.com/collect?" + query_parameters;
+          var pixel = new _window.Image();
+          pixel.src = pixliUrl;
+        };
+        var generateErrorPixel = function (_window, query_parameters) {
+          var pixliUrl = "https://px.ads.linkedin.com/insight_tag_errors.gif?" + query_parameters;
+          var pixel = new _window.Image();
+          pixel.src = pixliUrl;
+        };
 
-			// an array to store our particles in
-				particles = [];
+        var buildSearchString = function (searchItems) {
+          return searchItems.map(function (item) { return item.key + "=" + item.val; }).join('&');
+        };
+        var insideIFrame = function (_window) {
+          try {
+            return _window.self !== _window.top;
+          }
+          catch (e) {
+            return true;
+          }
+        };
+        var parsePageUrl = function (_window, _loadedInIFrame) {
+          if (_loadedInIFrame === void 0) { _loadedInIFrame = insideIFrame; }
+          var _document = _window.document;
+          if (_loadedInIFrame(_window) && _document.referrer) {
+            var parser = _document.createElement('a');
+            parser.href = _document.referrer;
+            return parser;
+          }
+          else {
+            return _window.location;
+          }
+        };
+        var getSlimUrl = function (url, limit) {
+          var searchItems = [];
+          var _a = url.split('?'), cleanOrigin = _a[0], search = _a[1];
+          if (search) {
+            var searchObj_1 = {};
+            var params = search.split('&');
+            for (var _i = 0, params_1 = params; _i < params_1.length; _i++) {
+              var param = params_1[_i];
+              var pair = param.split('=');
+              searchObj_1[pair[0]] = pair[1] || '';
+            }
+            Object.keys(searchObj_1).forEach(function (key) {
+              searchItems.push({ key: key, val: searchObj_1[key] });
+            });
+            searchItems.sort(function (a, b) { return b.key.length + b.val.length - a.key.length + a.val.length; });
+          }
+          while (encodeURIComponent(cleanOrigin + "?" + buildSearchString(searchItems)).length > limit) {
+            searchItems.shift();
+          }
+          return encodeURIComponent(searchItems.length ? cleanOrigin + "?" + buildSearchString(searchItems) : cleanOrigin);
+        };
 
-			// let's get going! 
-			init();
+        var isNumeric = function (pid) { return /^\d+$/.test(pid); };
+        var VALID_CONVERSION_TYPES = {
+          AD_CLICK: true,
+          AD_VIEW: true,
+          ADD_BILLING_INFO: true,
+          ADD_TO_CART: true,
+          ADD_TO_LIST: true,
+          BOOK_APPOINTMENT: true,
+          COMPLETE_SIGNUP: true,
+          CONTACT: true,
+          DONATE: true,
+          DOWNLOAD: true,
+          INSTALL: true,
+          JOB_APPLY: true,
+          KEY_PAGE_VIEW: true,
+          LEAD: true,
+          LOGIN: true,
+          OTHER: true,
+          OUTBOUND_CLICK: true,
+          PHONE_CALL: true,
+          PURCHASE: true,
+          REQUEST_QUOTE: true,
+          SAVE: true,
+          SCHEDULE: true,
+          SEARCH: true,
+          SHARE: true,
+          SIGN_UP: true,
+          START_CHECKOUT: true,
+          START_TRIAL: true,
+          SUBMIT_APPLICATION: true,
+          SUBSCRIBE: true,
+          VIEW_CONTENT: true,
+          VIEW_VIDEO: true
+        };
+        var LINTRK_OPTION_KEYS = [
+          'conversion_currency',
+          'conversion_id',
+          'conversion_type',
+          'conversion_url',
+          'conversion_value',
+          'order_id'
+        ];
+        var LINTRK_OPTIONS_MAP = {
+          conversion_currency: 'cur',
+          conversion_id: 'conversionId',
+          conversion_type: 'type',
+          conversion_url: 'url',
+          conversion_value: 'val',
+          order_id: 'oid'
+        };
+        var getAllPids = function (_window) {
+          var partner_ids = {};
+          var all_pids = [];
+          if (_window._bizo_data_partner_id) {
+            partner_ids[_window._bizo_data_partner_id] = true;
+            all_pids.push(_window._bizo_data_partner_id);
+          }
+          if (_window._bizo_data_partner_ids) {
+            for (var _i = 0, _a = _window._bizo_data_partner_ids; _i < _a.length; _i++) {
+              var pid = _a[_i];
+              if (!partner_ids[pid] && isNumeric(pid)) {
+                partner_ids[pid] = true;
+                all_pids.push(pid);
+              }
+            }
+          }
+          if (_window._linkedin_data_partner_id && !partner_ids[_window._linkedin_data_partner_id]) {
+            partner_ids[_window._linkedin_data_partner_id] = true;
+            all_pids.push(_window._linkedin_data_partner_id);
+          }
+          if (_window._linkedin_data_partner_ids) {
+            for (var _b = 0, _c = _window._linkedin_data_partner_ids; _b < _c.length; _b++) {
+              var pid = _c[_b];
+              if (!partner_ids[pid] && isNumeric(pid)) {
+                partner_ids[pid] = true;
+                all_pids.push(pid);
+              }
+            }
+          }
+          return all_pids;
+        };
+        var generateQueryParams = function (pids, url, li_fat_id, timestamp, options) {
+          var encodedPIDs = encodeURIComponent(pids.join(','));
+          var result = "v=2&fmt=js&pid=" + encodedPIDs + "&time=" + timestamp;
+          if (li_fat_id) {
+            result += "&li_fat_id=" + encodeURIComponent(li_fat_id);
+          }
+          for (var _i = 0, LINTRK_OPTION_KEYS_1 = LINTRK_OPTION_KEYS; _i < LINTRK_OPTION_KEYS_1.length; _i++) {
+            var key = LINTRK_OPTION_KEYS_1[_i];
+            if (options[key]) {
+              if (key === 'conversion_type' && !VALID_CONVERSION_TYPES[options[key]]) {
+                continue;
+              }
+              result += "&" + LINTRK_OPTIONS_MAP[key] + "=" + encodeURIComponent(options[key]);
+            }
+          }
+          if (!options.conversion_url) {
+            var encodedURL = getSlimUrl(url, 4046);
+            result += "&url=" + encodedURL;
+          }
+          return result;
+        };
+        var generateErrorQueryParams = function (error, pids, url) {
+          return "v=2&pid=" + encodeURIComponent(pids.join(',')) + "&error=" + encodeURIComponent(error) + "&href=" + encodeURIComponent(url);
+        };
+        var generateLintrk = function (_window, li_fat_id, _generateCollectPixel, _generateErrorPixel, _generateErrorQueryParams, _generateQueryParams, _getAllPids, _getCurrentDate, _parsePageUrl) {
+          if (li_fat_id === void 0) { li_fat_id = ''; }
+          if (_generateCollectPixel === void 0) { _generateCollectPixel = generateCollectPixel; }
+          if (_generateErrorPixel === void 0) { _generateErrorPixel = generateErrorPixel; }
+          if (_generateErrorQueryParams === void 0) { _generateErrorQueryParams = generateErrorQueryParams; }
+          if (_generateQueryParams === void 0) { _generateQueryParams = generateQueryParams; }
+          if (_getAllPids === void 0) { _getAllPids = getAllPids; }
+          if (_getCurrentDate === void 0) { _getCurrentDate = getCurrentDate; }
+          if (_parsePageUrl === void 0) { _parsePageUrl = parsePageUrl; }
+          return function (command, options) {
+            if (command === void 0) { command = 'track'; }
+            if (options === void 0) { options = {}; }
+            var pids = _getAllPids(_window);
+            var url = _parsePageUrl(_window).href || '';
+            try {
+              switch (command) {
+                case 'track':
+                  var current_time = _getCurrentDate();
+                  var query_parameters = _generateQueryParams(pids, url, li_fat_id, current_time, options);
+                  _generateCollectPixel(_window, query_parameters);
+                  break;
+                default:
+                  throw new Error("Lintrk was called with invalid command, " + command + ".");
+              }
+            }
+            catch (e) {
+              var error_query_params = _generateErrorQueryParams(e.message, pids, url);
+              _generateErrorPixel(_window, error_query_params);
+            }
+          };
+        };
 
-			function init() {
+        var commandQueue = (window.lintrk && window.lintrk.q) || [];
+        var pageUrl = parsePageUrl(window);
+        var liFatIdParam = pageUrl.search ? getLiFatIdParam(pageUrl.search.substr(1)) : '';
+        if (liFatIdParam) {
+          setLiFatCookie(window.document, window.location.hostname || '', liFatIdParam);
+        }
+        var li_fat_id = getLiFatCookie(window.document);
+        window.lintrk = generateLintrk(window, li_fat_id);
+        if (commandQueue.length > 0) {
+          commandQueue.forEach(function (command) {
+            window.lintrk.apply(null, command);
+          });
+          commandQueue = [];
+        }
+        if (!window._wait_for_lintrk && !window._already_called_lintrk) {
+          window.lintrk('track');
+          window._already_called_lintrk = true;
+        }
 
-				// Camera params : 
-				// field of view, aspect ratio for render output, near and far clipping plane. 
-				camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 4000 );
-	
-				// move the camera backwards so we can see stuff! 
-				// default position is 0,0,0. 
-				camera.position.z = 1000;
+      }());
+      //# sourceMappingURL=insight.beta.min.js.map
+    </script>
+    <!-- Experimental stuffz end -->
 
-				// the scene contains all the 3D object data
-				scene = new THREE.Scene();
-				
-				// camera needs to go in the scene 
-				scene.add(camera);
-	
-				// and the CanvasRenderer figures out what the 
-				// stuff in the scene looks like and draws it!
-	 
-				renderer = new THREE.CanvasRenderer();
-				renderer.setSize( window.innerWidth, window.innerHeight );
-	
-				// the renderer's canvas domElement is added to the body
-				document.body.appendChild( renderer.domElement );
+    <!-- Three Source -->
+    <script type="text/javascript" src="three.js"></script>
+    <!-- Draw circles main -->
+    <script type="text/javascript">
 
-				makeParticles(); 
-			
-				// add the mouse move listener
-				document.addEventListener( 'mousemove', onMouseMove, false );
-				
-				// render 30 times a second (should also look 
-				// at requestAnimationFrame) 
-				setInterval(update,1000/30); 
-			
-			}
+      // the main three.js components
+      var camera, scene, renderer,
 
-			// the main update function, called 30 times a second
+      // to keep track of the mouse position
+        mouseX = 0, mouseY = 0,
 
-			function update() {
+      // an array to store our particles in
+        particles = [];
 
-				updateParticles();
+      // let's get going! 
+      mainInit();
 
-				// and render the scene from the perspective of the camera
-				renderer.render( scene, camera );
+      function mainInit() {
 
-			}
+        // Camera params : 
+        // field of view, aspect ratio for render output, near and far clipping plane. 
+        camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 4000 );
+  
+        // move the camera backwards so we can see stuff! 
+        // default position is 0,0,0. 
+        camera.position.z = 1000;
 
-			// creates a random field of Particle objects
-			
-			function makeParticles() { 
-				
-				var particle, material; 
+        // the scene contains all the 3D object data
+        scene = new THREE.Scene();
+        
+        // camera needs to go in the scene 
+        scene.add(camera);
+  
+        // and the CanvasRenderer figures out what the 
+        // stuff in the scene looks like and draws it!
+   
+        renderer = new THREE.CanvasRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+  
+        // the renderer's canvas domElement is added to the body
+        document.body.appendChild( renderer.domElement );
 
-				// we're gonna move from z position -1000 (far away) 
-				// to 1000 (where the camera is) and add a random particle at every pos. 
-				for ( var zpos= -1000; zpos < 1000; zpos+=20 ) {
-		
-					// we make a particle material and pass through the 
-					// colour and custom particle render function we defined. 
-					material = new THREE.ParticleCanvasMaterial( { color: 0xffffff, program: particleRender } );
-					// make the particle
-					particle = new THREE.Particle(material);
-		
-					// give it a random x and y position between -500 and 500
-					particle.position.x = Math.random() * 1000 - 500;
-					particle.position.y = Math.random() * 1000 - 500;
-		
-					// set its z position
-					particle.position.z = zpos;
-		
-					// scale it up a bit
-					particle.scale.x = particle.scale.y = 10;
-		
-					// add it to the scene
-					scene.add( particle );
-		
-					// and to the array of particles. 
-					particles.push(particle); 
-				}
-				
-			}
-			
-			// there isn't a built in circle particle renderer 
-			// so we have to define our own. 
+        makeParticles(); 
+      
+        // add the mouse move listener
+        document.addEventListener( 'mousemove', onMouseMove, false );
+        
+        // render 30 times a second (should also look 
+        // at requestAnimationFrame) 
+        setInterval(update,1000/30); 
+      
+      }
 
-			function particleRender( context ) {
-				
-				// we get passed a reference to the canvas context
-				context.beginPath();
-				// and we just have to draw our shape at 0,0 - in this
-				// case an arc from 0 to 2Pi radians or 360º - a full circle!
-				context.arc( 0, 0, 1, 0,  Math.PI * 2, true );
-				context.fill();
-			};
+      // the main update function, called 30 times a second
 
-			
-			// moves all the particles dependent on mouse position
-			
-			function updateParticles() { 
-				
-				// iterate through every particle
-				for(var i=0; i<particles.length; i++) {
-		
-					particle = particles[i]; 
-		
-					// and move it forward dependent on the mouseY position. 
-					particle.position.z +=  mouseY * 0.1;
-		
-					// if the particle is too close move it to the back
-					if(particle.position.z>1000) particle.position.z-=2000; 
-		
-				}
-	
-			}
-		
-		// called when the mouse moves
-			function onMouseMove( event ) {
-				// store the mouseX and mouseY position 
-				mouseX = event.clientX;
-				mouseY = event.clientY;
-			}
+      function update() {
 
-		</script>
-	</body>
+        updateParticles();
+
+        // and render the scene from the perspective of the camera
+        renderer.render( scene, camera );
+
+      }
+
+      // creates a random field of Particle objects
+      
+      function makeParticles() { 
+        
+        var particle, material; 
+
+        // we're gonna move from z position -1000 (far away) 
+        // to 1000 (where the camera is) and add a random particle at every pos. 
+        for ( var zpos= -1000; zpos < 1000; zpos+=20 ) {
+    
+          // we make a particle material and pass through the 
+          // colour and custom particle render function we defined. 
+          material = new THREE.ParticleCanvasMaterial( { color: 0xffffff, program: particleRender } );
+          // make the particle
+          particle = new THREE.Particle(material);
+    
+          // give it a random x and y position between -500 and 500
+          particle.position.x = Math.random() * 1000 - 500;
+          particle.position.y = Math.random() * 1000 - 500;
+    
+          // set its z position
+          particle.position.z = zpos;
+    
+          // scale it up a bit
+          particle.scale.x = particle.scale.y = 10;
+    
+          // add it to the scene
+          scene.add( particle );
+    
+          // and to the array of particles. 
+          particles.push(particle); 
+        }
+        
+      }
+      
+      // there isn't a built in circle particle renderer 
+      // so we have to define our own. 
+
+      function particleRender( context ) {
+        
+        // we get passed a reference to the canvas context
+        context.beginPath();
+        // and we just have to draw our shape at 0,0 - in this
+        // case an arc from 0 to 2Pi radians or 360º - a full circle!
+        context.arc( 0, 0, 1, 0,  Math.PI * 2, true );
+        context.fill();
+      };
+
+      
+      // moves all the particles dependent on mouse position
+      
+      function updateParticles() { 
+        
+        // iterate through every particle
+        for(var i=0; i<particles.length; i++) {
+    
+          particle = particles[i]; 
+    
+          // and move it forward dependent on the mouseY position. 
+          particle.position.z +=  mouseY * 0.1;
+    
+          // if the particle is too close move it to the back
+          if(particle.position.z>1000) particle.position.z-=2000; 
+    
+        }
+  
+      }
+    
+      // called when the mouse moves
+      function onMouseMove( event ) {
+        // store the mouseX and mouseY position 
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+      }
+    </script>
+  </body>
 </html>
